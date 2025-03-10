@@ -10,14 +10,19 @@
         <div class="container d-flex justify-content-center align-items-center vh-100">
             <div class="card p-4 border border-black shadow-lg w-25">
                 <h2 class="text-center mb-4">Login</h2>
+                <% if (typeof alertMessage !== 'undefined') { %>
+                    <div class="alert alert-<%=alertType %>" role="alert">
+                        <%= alertMessage %>
+                    </div>
+                <% } %>
                 <form action="/login" method="post">
                     <div class="mb-3">
-                        <label for="userame" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Enter username">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" name="username" placeholder="Enter username">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" placeholder="Enter password">
+                        <input type="password" class="form-control" name="password" placeholder="Enter password">
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Login</button>
                     <div class="text-center mt-3">
@@ -29,5 +34,6 @@
                 </form>
             </div>
         </div>
+        <script src="/js/script.js"></script>
     </body>
 </html>
