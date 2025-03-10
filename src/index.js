@@ -34,25 +34,32 @@ app.post("/register", async (req, res) => {
 
     const data = {
         username: req.body.username,
-        password: req.body.password
-    }
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword
+    };
 
     //User validation
     const existingUser = await collection.findOne({ username: data.username });
     if (existingUser) {
         res.render("register", { alertMessage: "Username already exists.", alertType: "danger" });
     } else {
-        //Password hash
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+        // Check if passwords match
+        if (data.password !== data.confirmPassword) {
+            res.render("register", { alertMessage: "Passwords do not match.", alertType: "danger" });
+        } else {
+            // Password hash
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(data.password, saltRounds);
 
-        data.password = hashedPassword;
+            data.password = hashedPassword;
+            delete data.confirmPassword; //Remove confirmPassword from data before saving
 
-        const userData = await collection.insertMany(data);
-        res.render("register", { alertMessage: "Successfully registered.", alertType: "success" });
-        console.log(userData);
+            const userData = await collection.insertMany(data);
+            res.render("register", { alertMessage: "Successfully registered.", alertType: "success" });
+            console.log(userData);
+        }
     }
-
+    
 });
 
 //Server connection
