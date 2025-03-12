@@ -48,10 +48,10 @@ app.get("/home", (req, res) => {
 
 // Register user
 app.post("/register", async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
     // Check for empty fields
-    if (!username || !password || !confirmPassword) {
+    if (!username || !email || !password || !confirmPassword) {
         return res.render("register", { alertMessage: "All fields are required.", alertType: "danger" });
     }
 
@@ -72,6 +72,7 @@ app.post("/register", async (req, res) => {
 
     const data = {
         username,
+        email,
         password: hashedPassword
     };
 
