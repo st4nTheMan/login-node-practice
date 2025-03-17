@@ -1,0 +1,23 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 50px;
+    background-color: #f5f5f5;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#message {
+    display: inline-block;  /* Makes the background fit the text */
+    padding: 10px 15px;
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: lightgray; /* Default color */
+    visibility: hidden; /* Hide message initially */
+}
