@@ -46,9 +46,17 @@ app.get("/home", (req, res) => {
     }
 });
 
+app.get("/profile", (req, res) => {
+    if (req.session.user) {
+        res.render("profile", { user: req.session.user });
+    } else {
+        res.redirect("/login");
+    }
+});
+
 // Register user
 app.post("/register", async (req, res) => {
-    const { username, email, password, confirmPassword } = req.body;
+    const {firstName, lastName, username, email, password, confirmPassword } = req.body;
 
     // Check for empty fields
     if (!username || !email || !password || !confirmPassword) {
@@ -71,6 +79,8 @@ app.post("/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const data = {
+        firstName,
+        lastName,
         username,
         email,
         password: hashedPassword
@@ -98,7 +108,11 @@ app.post("/login", async (req, res) => {
         // Check if password matches the username to proceed
         const userValidation = await bcrypt.compare(password, checkUser.password);
         if (userValidation) {
-            req.session.user = { username: checkUser.username };
+            req.session.user = { 
+                username: checkUser.username,
+                firstName: checkUser.firstName,
+                lastName: checkUser.lastName
+            };
             return res.redirect("/home");
         } else {
             return res.render("login", { alertMessage: "Incorrect username or password.", alertType: "danger" });
