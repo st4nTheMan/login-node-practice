@@ -4,6 +4,7 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const session = require("express-session");
 const collection = require("./config");
+const db = require('./config');
 
 const app = express();
 
@@ -56,38 +57,23 @@ app.get("/profile", (req, res) => {
 
 // Register user
 app.post("/register", async (req, res) => {
-    const {firstName, lastName, username, email, password, confirmPassword } = req.body;
-
-    // Check for empty fields
-    if (!username || !email || !password || !confirmPassword) {
-        return res.render("register", { alertMessage: "All fields are required.", alertType: "danger" });
+    try {
+        const { firstName, lastName, username, email, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        
+        await db.create({
+            firstName,
+            lastName,
+            username,
+            email,
+            password: hashedPassword
+        });
+        
+        return res.render("register", { alertMessage: "Successfully registered.", alertType: "success" });
+    } catch (error) {
+        console.error("Registration error:", error);
+        return res.render("register", { alertMessage: "An error occurred.", alertType: "danger" });
     }
-
-    // User validation
-    const existingUser = await collection.findOne({ username });
-    if (existingUser) {
-        return res.render("register", { alertMessage: "Username already exists.", alertType: "danger" });
-    }
-
-    // Check if passwords match
-    if (password !== confirmPassword) {
-        return res.render("register", { alertMessage: "Passwords do not match.", alertType: "danger" });
-    }
-
-    // Password hash
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-    const data = {
-        firstName,
-        lastName,
-        username,
-        email,
-        password: hashedPassword
-    };
-
-    await collection.insertMany(data);
-    res.render("register", { alertMessage: "Successfully registered.", alertType: "success" });
 });
 
 // Login user
@@ -100,7 +86,7 @@ app.post("/login", async (req, res) => {
         }
 
         // Check if user exists in the database
-        const checkUser = await collection.findOne({ username });
+        const checkUser = await db.findOne(username);
         if (!checkUser) {
             return res.render("login", { alertMessage: "User does not exist.", alertType: "danger" });
         }

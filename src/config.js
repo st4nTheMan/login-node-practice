@@ -1,36 +1,49 @@
-const mongoose = require("mongoose");
-const connect = mongoose.connect("mongodb://localhost:27017/my-website");
+const mysql = require('mysql2/promise');
 
-//Check database conneccion
-connect.then(() => {
-    console.log("Database connected successfully");
+// Create connection pool
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'my-website',
+    port: 3306,
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-//Create a schema
-const loginSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    username: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
+// Test database connection
+async function testConnection() {
+    try {
+        await pool.query('SELECT 1');
+        console.log('Database connected successfully');
+    } catch (error) {
+        console.error('Unable to connect to the database:', error);
     }
-});
+}
 
-//Collection Part
-const collection = new mongoose.model("users", loginSchema);
+testConnection();
 
-module.exports = collection;
+// Helper functions for database operations
+const db = {
+    findOne: async (username) => {
+        const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        return rows[0];
+    },
+    
+    create: async (userData) => {
+        const { firstName, lastName, username, email, password } = userData;
+        const [result] = await pool.query(
+            'INSERT INTO users (firstName, lastName, username, email, password) VALUES (?, ?, ?, ?, ?)',
+            [firstName, lastName, username, email, password]
+        );
+        return result;
+    },
+    
+    findAll: async () => {
+        const [rows] = await pool.query('SELECT * FROM users');
+        return rows;
+    }
+};
+
+module.exports = db;
