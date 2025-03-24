@@ -2,4 +2,9 @@
 
 By running the program, type "node src/index.js"
 
-By connecting to the database, go to MongoDB Compass and click "Add new connection". Refer to line 2 of config.js for connection configuration to the database.
+By connecting to the database, go to your MySQL Workbench add a connection.
+Hostname: localhost
+Port: 3306
+Username: root
+Password: <your_password> (input your password in config.js line 7 same with password in your MySQL Workbench connection)
+

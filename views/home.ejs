@@ -16,7 +16,6 @@
                     <div class="flex items-center">
                         <span class="text-xl font-semibold text-gray-800">Home</span>
                     </div>
-                    
                     <!-- User Dropdown -->
                     <div class="flex items-center">
                         <div class="relative" x-data="{ open: false }" @click.away="open = false">
@@ -28,19 +27,18 @@
                                      :class="{ 'transform rotate-180': open }"
                                 >
                             </button>
-                            
-                            <!-- Dropdown Menu -->
-                            <div x-show="open" 
-                                 x-transition:enter="transition ease-out duration-100"
-                                 x-transition:enter-start="transform opacity-0 scale-95"
-                                 x-transition:enter-end="transform opacity-100 scale-100"
-                                 x-transition:leave="transition ease-in duration-75"
-                                 x-transition:leave-start="transform opacity-100 scale-100"
-                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                 class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                        <!-- Dropdown Menu -->
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-100"
+                             x-transition:enter-start="transform opacity-0 scale-95"
+                             x-transition:enter-end="transform opacity-100 scale-100"
+                             x-transition:leave="transition ease-in duration-75"
+                             x-transition:leave-start="transform opacity-100 scale-100"
+                             x-transition:leave-end="transform opacity-0 scale-95"
+                                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
                                 <form action="/profile" method="get">
                                     <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-black-600 hover:bg-gray-100">
-                                        Profile
+                                        Profile                                    
                                     </button>
                                 </form>
                                 <form action="/logout" method="post">
@@ -54,7 +52,6 @@
                 </div>
             </div>
         </nav>
-
         <!-- Main Content -->
         <div class="container mx-auto mt-10">
             <h1 class="text-3xl font-bold text-center mb-6">Welcome <%= user.lastName + ", " + user.firstName %></h1>
