@@ -1,11 +1,20 @@
-**BEFORE PULLING THIS REPOSITORY, YOU MUST INSTALL Node.js AND MySQL TO BE ABLE TO RUN THE PROGRAM AND ACCESS WITH THE DATABASE**
+# 📦 Project Setup Guide
 
-By running the program, type "node src/index.js"
+## ⚠️ Prerequisites
 
-By connecting to the database, go to your MySQL Workbench add a connection.
+Before cloning or running this repository, make sure you have the following installed:
 
-Hostname: localhost
-Port: 3306
-Username: root
-Password: <your_password> (input your password in config.js line 7 same with password in your MySQL Workbench connection)
+- [Node.js](https://nodejs.org/)
+- [MySQL Community Server](https://dev.mysql.com/downloads/mysql/)
+
+---
+
+## 🚀 Running the Program
+
+1. Open your terminal or command prompt.
+2. Navigate to the project folder.
+3. Run the program using:
+   ```bash
+   node src/index.js
+
 
