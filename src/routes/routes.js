@@ -5,7 +5,14 @@ const db = require('../config');
 
 // Login page
 router.get("/login", (req, res) => {
-    res.render("login");
+    const alertMessage = req.session.alertMessage || null;
+    const alertType = req.session.alertType || null;
+
+    // Clear after reading
+    req.session.alertMessage = null;
+    req.session.alertType = null;
+
+    res.render("login", { alertMessage, alertType });
 });
 
 // Register page
@@ -53,32 +60,41 @@ router.post("/register", async (req, res) => {
 });
 
 // Login user
+// POST /login
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
     try {
         if (!username || !password) {
-            return res.render("login", { alertMessage: "All fields are required.", alertType: "danger" });
+            req.session.alertMessage = "All fields are required.";
+            req.session.alertType = "danger";
+            return res.redirect("/login");
         }
 
         const checkUser = await db.findOne(username);
         if (!checkUser) {
-            return res.render("login", { alertMessage: "User does not exist.", alertType: "danger" });
+            req.session.alertMessage = "User does not exist.";
+            req.session.alertType = "danger";
+            return res.redirect("/login");
         }
 
         const userValidation = await bcrypt.compare(password, checkUser.password);
         if (userValidation) {
-            req.session.user = { 
+            req.session.user = {
                 username: checkUser.username,
                 firstName: checkUser.firstName,
                 lastName: checkUser.lastName
             };
             return res.redirect("/home");
         } else {
-            return res.render("login", { alertMessage: "Incorrect username or password.", alertType: "danger" });
+            req.session.alertMessage = "Incorrect username or password.";
+            req.session.alertType = "danger";
+            return res.redirect("/login");
         }
     } catch (error) {
         console.error("Error during login:", error);
-        return res.render("login", { alertMessage: "An error occurred. Please try again.", alertType: "danger" });
+        req.session.alertMessage = "An error occurred. Please try again.";
+        req.session.alertType = "danger";
+        return res.redirect("/login");
     }
 });
 

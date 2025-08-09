@@ -10,19 +10,37 @@
         <div class="flex items-center justify-center min-h-screen">
             <div class="bg-white p-6 rounded-lg shadow-lg w-96">
                 <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
-                <% if (typeof alertMessage !== 'undefined') { %>
-                    <div class="p-4 mb-4 text-sm text-<%= alertType === 'danger' ? 'red-700' : 'green-700' %> bg-<%= alertType === 'danger' ? 'red-100' : 'green-100' %> rounded-lg" role="alert">
-                        <%= alertMessage %>
-                    </div>
-                <% } %>
-                <form action="/login" method="post">
+                    <form action="/login" method="post">
+                    <!-- Username -->
                     <div class="mb-4">
                         <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                        <input type="text" name="username" placeholder="Enter username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input 
+                            type="text" name="username"
+                            placeholder="Enter username" 
+                            value="<%= typeof username !== 'undefined' ? username : '' %>"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm 
+                            <%= (typeof alertMessage !== 'undefined' && alertType === 'danger') ? 'border-orange-500' 
+                            : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500' %>"
+                        >
+                        <% if (typeof alertMessage !== 'undefined' && alertType === 'danger') { %>
+                            <p class="alert-inline mt-1 text-xs ml-2 text-orange-600"><%= alertMessage %></p>
+                        <% } %>
                     </div>
+
+                    <!-- Password -->
                     <div class="mb-4">
                         <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" name="password" placeholder="Enter password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input 
+                            type="password" name="password" 
+                            placeholder="Enter password" 
+                            value="<%= typeof password !== 'undefined' ? password : '' %>"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm
+                            <%= (typeof alertMessage !== 'undefined' && alertType === 'danger') ? 'border-orange-500' 
+                            : 'border-gray-300 focus:ring-indigo-500 focus:border-indigo-500' %>"
+                        >
+                        <% if (typeof alertMessage !== 'undefined' && alertType === 'danger') { %>
+                            <p class="alert-inline mt-1 text-xs ml-2 text-orange-600"><%= alertMessage %></p>
+                        <% } %>
                     </div>
                     <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Login</button>
                     <div class="text-center mt-4">
@@ -34,5 +52,6 @@
                 </form>
             </div>
         </div>
+        <script src="/js/login-validation.js"></script>
     </body>
 </html>

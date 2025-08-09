@@ -10,19 +10,22 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Using EJS to view engine
+// Session management (MUST be before routes)
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: false, // better than true
+    cookie: { 
+        maxAge: 1000 * 60 * 60, // 1 hour
+        secure: false // set to true if HTTPS
+    }
+}));
+
+// Using EJS as view engine
 app.set('view engine', 'ejs');
 
 // Static file
 app.use(express.static("public"));
-
-// Session management
-app.use(session({
-    secret: process.env.SECRET_KEY,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
 
 // Root route
 app.get("/", (req, res) => {
