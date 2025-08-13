@@ -17,8 +17,15 @@ router.get("/login", (req, res) => {
 
 // Register page
 router.get("/register", (req, res) => {
-    res.render("register");
+    res.render("register", { 
+        errors: {},
+        firstName: "",
+        lastName: "",
+        username: "",
+        email: ""
+    });
 });
+
 
 // Home page
 router.get("/home", (req, res) => {
@@ -42,8 +49,33 @@ router.get("/profile", (req, res) => {
 router.post("/register", async (req, res) => {
     try {
         const { firstName, lastName, username, email, password } = req.body;
+        let errors = {};
+
+        // Manual validation
+        if (!firstName || firstName.trim() === "") {
+            errors.firstName = "First name is required.";
+        }
+        if (!lastName || lastName.trim() === "") {
+            errors.lastName = "Last name is required.";
+        }
+        if (!username || username.trim() === "") {
+            errors.username = "Username is required.";
+        }
+        if (!password || password.trim() === "") {
+            errors.password = "Password is required.";
+        } else if (password.length < 6) {
+            errors.password = "Password must be at least 6 characters.";
+        }
+
+        // If validation fails
+        if (Object.keys(errors).length > 0) {
+            return res.status(400).json({ errors });
+        }
+
+        // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
-        
+
+        // Save to DB
         await db.create({
             firstName,
             lastName,
@@ -51,15 +83,22 @@ router.post("/register", async (req, res) => {
             email,
             password: hashedPassword
         });
-        
-        return res.render("register", { alertMessage: "Successfully registered.", alertType: "success" });
+
+        // Send success JSON
+        return res.status(200).json({
+            message: "Successfully registered."
+        });
+
     } catch (error) {
         console.error("Registration error:", error);
-        return res.render("register", { alertMessage: "An error occurred.", alertType: "danger" });
+        return res.status(500).json({
+            message: "An error occurred during registration."
+        });
     }
 });
 
-// Login user
+
+
 // POST /login
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
