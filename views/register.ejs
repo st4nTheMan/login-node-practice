@@ -1,53 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/css/output.css" rel="stylesheet">
-        <title>Register</title>
-    </head>
-    <body class="bg-gray-100">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
-                <% if (typeof alertMessage !== 'undefined') { %>
-                    <div class="p-4 mb-4 text-sm text-<%= alertType === 'danger' ? 'red-700' : 'green-700' %> bg-<%= alertType === 'danger' ? 'red-100' : 'green-100' %> rounded-lg" role="alert">
-                        <%= alertMessage %>
-                    </div>
-                <% } %>
-                <form action="/register" method="post">
-                    <div class="columns-2 gap-5 mb-4">
-                        <label for="firstName" class="block text-sm font-medium text-gray-700">First name</label>
-                        <input type="text" name="firstName" placeholder="Enter first name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        <label for="lastName" class="block text-sm font-medium text-gray-700">Last name</label>
-                        <input type="text" name="lastName" placeholder="Enter last name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
-                        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-                        <input type="text" name="username" placeholder="Enter username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
-                        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" placeholder="Enter email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
-                        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                        <input type="password" name="password" placeholder="Enter password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                        <input type="password" name="confirmPassword" placeholder="Confirm password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Register</button>
-                    <div class="text-center mt-4">
-                        <p class="text-sm text-gray-600">
-                            Already have an account? 
-                            <a href="/login" class="text-indigo-600 hover:underline">Login</a>
-                        </p>
-                    </div>
-                </form>
-            </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="/css/output.css" rel="stylesheet" />
+  <title>Register</title>
+</head>
+<body class="bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
+
+      <form id="registerForm" action="/register" method="post">
+        <div class="grid grid-cols-2 gap-5 mb-4">
+          <!-- First Name -->
+          <div>
+            <label for="firstName" class="label-style">First name</label>
+            <input
+              id="firstName"
+              type="text"
+              name="firstName"
+              placeholder="Enter first name"
+              value="<%= firstName || '' %>"
+              class="input-field-style input-normal"
+              data-error=<%- JSON.stringify((errors && errors.firstName) ? errors.firstName : "") %>
+            />
+          </div>
+
+          <!-- Last Name -->
+          <div>
+            <label for="lastName" class="label-style">Last name</label>
+            <input
+              id="lastName"
+              type="text"
+              name="lastName"
+              placeholder="Enter last name"
+              value="<%= lastName || '' %>"
+              class="input-field-style input-normal"
+              data-error=<%- JSON.stringify((errors && errors.lastName) ? errors.lastName : "") %>
+            />
+          </div>
         </div>
-        <script src="/js/script.js"></script>
-    </body>
+
+        <!-- Username -->
+        <div class="mb-4">
+          <label for="username" class="label-style">Username</label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            placeholder="Enter username"
+            value="<%= username || '' %>"
+            class="input-field-style input-normal"
+            data-error=<%- JSON.stringify((errors && errors.username) ? errors.username : "") %>
+          />
+        </div>
+
+        <!-- Email (you said no validation, so empty data-error is fine) -->
+        <div class="mb-4">
+          <label for="email" class="label-style">Email</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Enter email"
+            value="<%= email || '' %>"
+            class="input-field-style input-normal"
+            data-error=""
+          />
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label for="password" class="label-style">Password</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Enter password"
+            class="input-field-style input-normal"
+            data-error=<%- JSON.stringify((errors && errors.password) ? errors.password : "") %>
+          />
+        </div>
+
+        <!-- Register -->
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Register
+        </button>
+
+        <div class="text-center mt-4">
+          <p class="text-sm text-gray-600">
+            Already have an account?
+            <a href="/login" class="text-indigo-600 hover:underline">Login</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/register-validation.js"></script>
+</body>
 </html>
