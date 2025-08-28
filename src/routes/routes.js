@@ -5,14 +5,15 @@ const db = require('../config');
 
 // Login page
 router.get("/login", (req, res) => {
-    const alertMessage = req.session.alertMessage || null;
-    const alertType = req.session.alertType || null;
+    const errors = req.session.errors || {};
+    const username = req.session.username || "";
+    const password = ""; // never prefill password
 
-    // Clear after reading
-    req.session.alertMessage = null;
-    req.session.alertType = null;
+    // Clear session after reading
+    req.session.errors = null;
+    req.session.username = null;
 
-    res.render("login", { alertMessage, alertType });
+    res.render("login", { username, password, errors });
 });
 
 // Register page
@@ -102,38 +103,41 @@ router.post("/register", async (req, res) => {
 // POST /login
 router.post("/login", async (req, res) => {
     const { username, password } = req.body;
-    try {
-        if (!username || !password) {
-            req.session.alertMessage = "All fields are required.";
-            req.session.alertType = "danger";
-            return res.redirect("/login");
-        }
+    let errors = {};
 
+    if (!username || username.trim() === "") {
+        errors.username = "Username is required.";
+    }
+    if (!password || password.trim() === "") {
+        errors.password = "Password is required.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json({ errors }); // <-- always return JSON for errors
+    }
+
+    try {
         const checkUser = await db.findOne(username);
         if (!checkUser) {
-            req.session.alertMessage = "User does not exist.";
-            req.session.alertType = "danger";
-            return res.redirect("/login");
+            errors.username = "Incorrect username or password.";
+            return res.status(400).json({ errors });
         }
 
         const userValidation = await bcrypt.compare(password, checkUser.password);
-        if (userValidation) {
-            req.session.user = {
-                username: checkUser.username,
-                firstName: checkUser.firstName,
-                lastName: checkUser.lastName
-            };
-            return res.redirect("/home");
-        } else {
-            req.session.alertMessage = "Incorrect username or password.";
-            req.session.alertType = "danger";
-            return res.redirect("/login");
+        if (!userValidation) {
+            errors.password = "Incorrect username or password.";
+            return res.status(400).json({ errors });
         }
+
+        req.session.user = {
+            username: checkUser.username,
+            firstName: checkUser.firstName,
+            lastName: checkUser.lastName
+        };
+        return res.status(200).json({ message: "Login successful." });
     } catch (error) {
         console.error("Error during login:", error);
-        req.session.alertMessage = "An error occurred. Please try again.";
-        req.session.alertType = "danger";
-        return res.redirect("/login");
+        return res.status(500).json({ message: "An error occurred during login." });
     }
 });
 
