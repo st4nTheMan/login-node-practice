@@ -1,5 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("registerForm");
+    const toast = document.getElementById("toast-success");
+    const closeBtn = document.getElementById("toast-close");
+
+    // Initially hide the toast
+    toast.style.display = "none";
+
+    // Function to show toast
+    function showToast(message) {
+        const toastMsg = document.getElementById("toast-message");
+        toastMsg.textContent = message;
+        toast.style.display = "flex";  // Make it visible
+
+        if (toast.dataset.timerId) {
+        clearTimeout(toast.dataset.timerId);
+    }
+        // Auto-hide after 10s
+        const timerId = setTimeout(() => {
+            hideToast();
+        }, 3000);
+
+        toast.dataset.timerId = timerId;
+    }
+
+    // Function to hide toast
+    function hideToast() {
+        toast.style.display = "none";
+    }
+
+    // Close button listener
+    closeBtn.addEventListener("click", hideToast);
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault(); // Stop normal form submission
@@ -35,9 +65,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         p.textContent = message;
                         input.parentElement.appendChild(p);
                     }
+                    // Remove error once user types
+                        input.addEventListener("input", () => {
+                            input.classList.remove("input-error");
+                            input.classList.add("input-normal");
+                            const errMsg = input.parentElement.querySelector(".error-message");
+                            if (errMsg) errMsg.remove();
+                        }, { once: true });
                 }
             } else {
-                alert("Registration successful!");
+                showToast("Registered successfully!");
                 form.reset();
             }
         } catch (err) {
