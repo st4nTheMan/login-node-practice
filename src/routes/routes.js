@@ -73,18 +73,7 @@ router.post("/register", async (req, res) => {
         }
 
         // Check if username or email already exists
-        const existingUser = await db.findOne(username);
-        if (existingUser) {
-            errors.username = "Username already taken.";
-        }
-        const existingEmail = await db.findByEmail(email);
-        if (existingEmail) {
-            errors.email = "Email already registered.";
-        }
-
-        if (Object.keys(errors).length > 0) {
-            return res.status(400).json({ errors });
-        }
+        
         
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
