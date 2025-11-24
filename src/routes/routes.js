@@ -40,7 +40,11 @@ router.get("/home", (req, res) => {
 // Profile page
 router.get("/profile", (req, res) => {
     if (req.session.user) {
-        res.render("profile", { user: req.session.user });
+        res.render("profile", { 
+            user: req.session.user,
+            errors: req.session.errors || {}
+        });
+        req.session.errors = null;
     } else {
         res.redirect("/login");
     }
@@ -141,6 +145,48 @@ router.post("/login", async (req, res) => {
     } catch (error) {
         console.error("Error during login:", error);
         return res.status(500).json({ message: "An error occurred during login." });
+    }
+});
+
+// Edit Profile
+router.post("/profile", async (req, res) => {
+    const { firstName, lastName, email } = req.body;
+    let errors = {};
+
+    // Manual validation
+    if (!firstName || firstName.trim() === "") {
+        errors.firstName = "First name is required.";
+    }
+    if (!lastName || lastName.trim() === "") {
+        errors.lastName = "Last name is required.";
+    }
+    if (!email || email.trim() === "") {
+        errors.email = "Email is required.";
+    }
+    
+    // If validation fails
+    if (Object.keys(errors).length > 0) {
+        return res.status(400).json({ errors });
+    }
+
+    try {
+        console.log("Updating profile for:", req.session.user.username);
+        
+        // Update user in database
+        await db.updateOne(
+            { username: req.session.user.username },
+            { firstName, lastName, email }
+        );
+
+        // Update session
+        req.session.user.firstName = firstName;
+        req.session.user.lastName = lastName;
+        req.session.user.email = email;
+
+        return res.status(200).json({ message: "Profile updated successfully." });
+    } catch (error) {
+        console.error("Error updating profile:", error);
+        return res.status(500).json({ message: "An error occurred while updating profile." });
     }
 });
 

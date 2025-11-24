@@ -40,6 +40,16 @@ const db = {
         return result;
     },
     
+    updateOne: async (condition, updates) => {
+        const { username } = condition;
+        const { firstName, lastName, email } = updates;
+        const [result] = await pool.query(
+            'UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE username = ?',
+            [firstName, lastName, email, username]
+        );
+        return result;
+    },
+    
     findAll: async () => {
         const [rows] = await pool.query('SELECT * FROM users');
         return rows;
