@@ -63,8 +63,110 @@
         </nav>
 
         <!-- Main Content -->
-        <div class="container mx-auto mt-10">
-            <h1 class="text-3xl font-bold text-center mb-6">Welcome <%= user.lastName + ", " + user.firstName %></h1>
+        <div class="flex flex-col items-center bg-gray-100 min-h-screen py-10">
+            <div class="w-96 space-y-6">
+                <h1 class="text-2xl font-bold text-center mb-8">Welcome <%= user.lastName + ", " + user.firstName %></h1>
+
+                <!-- Profile Edit Form -->
+                <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                    <h2 class="text-2xl font-bold text-center mb-6">Edit Information</h2>
+                    
+                    <form action="/profile/update" method="post" class="space-y-4">
+                        <div>
+                            <label for="firstName" class="label-style">First Name</label>
+                            <input 
+                                id="firstName" 
+                                name="firstName" 
+                                type="text" 
+                                required
+                                value="<%= user.firstName %>"
+                                class="input-field-style input-normal"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="lastName" class="label-style">Last Name</label>
+                            <input 
+                                id="lastName" 
+                                name="lastName" 
+                                type="text" 
+                                required
+                                value="<%= user.lastName %>"
+                                class="input-field-style input-normal"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="email" class="label-style">Email</label>
+                            <input 
+                                id="email" 
+                                name="email" 
+                                type="email" 
+                                required
+                                value="<%= user.email %>"
+                                class="input-field-style input-normal"
+                            />
+                        </div>
+
+                        <button 
+                            type="submit"
+                            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mt-6"
+                        >
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Password Change Form -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h2 class="text-2xl font-bold text-center mb-6">Change Password</h2>
+                    
+                    <form action="/profile/change-password" method="post" class="space-y-4">
+                        <div>
+                            <label for="currentPassword" class="label-style">Current Password</label>
+                            <input 
+                                id="currentPassword" 
+                                name="currentPassword" 
+                                type="password" 
+                                required
+                                placeholder="Enter current password"
+                                class="input-field-style input-normal"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="newPassword" class="label-style">New Password</label>
+                            <input 
+                                id="newPassword" 
+                                name="newPassword" 
+                                type="password" 
+                                required
+                                placeholder="Enter new password"
+                                class="input-field-style input-normal"
+                            />
+                        </div>
+
+                        <div>
+                            <label for="confirmPassword" class="label-style">Confirm New Password</label>
+                            <input 
+                                id="confirmPassword" 
+                                name="confirmPassword" 
+                                type="password" 
+                                required
+                                placeholder="Confirm new password"
+                                class="input-field-style input-normal"
+                            />
+                        </div>
+
+                        <button 
+                            type="submit"
+                            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 mt-6"
+                        >
+                            Change Password
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </body>
 </html>
