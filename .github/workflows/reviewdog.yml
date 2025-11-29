@@ -1,0 +1,25 @@
+name: Reviewdog - ESLint PR Review
+
+on:
+  pull_request:
+
+jobs:
+  reviewdog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Reviewdog (ESLint)
+        uses: reviewdog/action-eslint@v1
+        with:
+          eslint_flags: "."
+          reporter: github-pr-review
+          level: warning
