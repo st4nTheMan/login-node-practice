@@ -19,4 +19,4 @@ jobs:
         run: npm install
 
       - name: Run ESLint
-        run: npm run lint
+        run: npx eslint src --ext .js,.vue --max-warnings=0
