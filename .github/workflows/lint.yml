@@ -9,18 +9,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the code
       - uses: actions/checkout@v3
 
+      # Step 2: Setup Node.js
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: "npm"
 
+      # Step 3: Install dependencies cleanly
       - name: Install dependencies
         run: npm ci
 
-      - name: Fix file permissions (ESLint binary)
-        run: chmod +x node_modules/.bin/eslint
-
+      # Step 4: Run ESLint on all relevant JS files
       - name: Run ESLint
-        run: npx eslint "src/**/*.js" "public/js/**/*.js" --max-warnings=0
+        run: npx eslint "src/**/*.js" "public/js/**/*.js" "public/js/**/*.mjs" --max-warnings=0
