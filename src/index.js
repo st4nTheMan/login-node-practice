@@ -1,8 +1,8 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
-const path = require("path");
+//const path = require("path");
 const session = require("express-session");
-const routes = require('./routes/routes');
+const routes = require("./routes/routes");
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(session({
 }));
 
 // Using EJS as view engine
-app.set('view engine', 'ejs');
+app.set("view engine", "ejs");
 
 // Static file
 app.use(express.static("public"));
@@ -33,7 +33,7 @@ app.get("/", (req, res) => {
 });
 
 // Use routes
-app.use('/', routes);
+app.use("/", routes);
 
 // Server connection
 const port = 4000;
