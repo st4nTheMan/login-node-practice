@@ -1,6 +1,6 @@
-import js from "@eslint/js";
+const js = require("@eslint/js");
 
-export default [
+module.exports = [
   {
     ignores: ["node_modules/**", "public/css/output.css"],
   },
@@ -9,7 +9,7 @@ export default [
     files: ["src/**/*.js"],
     languageOptions: {
       ecmaVersion: 2021,
-      sourceType: "module",
+      sourceType: "script", // or "module" if needed
       globals: {
         console: "readonly",
         process: "readonly",
@@ -32,7 +32,7 @@ export default [
     files: ["public/js/**/*.js"],
     languageOptions: {
       ecmaVersion: 2021,
-      sourceType: "module",
+      sourceType: "script",
       globals: {
         window: "readonly",
         document: "readonly",
