@@ -13,10 +13,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 18
-
+          
+      - name: Fix eslint permissions
+        run: chmod +x ./node_modules/.bin/eslint
+        
       - name: Install dependencies
         run: npm install
-
+      
       - name: Reviewdog (ESLint)
         uses: reviewdog/action-eslint@v1
         with:
