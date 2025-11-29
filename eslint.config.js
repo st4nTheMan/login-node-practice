@@ -1,11 +1,10 @@
-const js = require("@eslint/js");
+import js from "@eslint/js";
 
-module.exports = [
+export default [
   {
-    ignores: ["node_modules/", "public/css/output.css"],
+    ignores: ["node_modules/**", "public/css/output.css"],
   },
 
-  // Backend (Node) files
   {
     files: ["src/**/*.js"],
     languageOptions: {
@@ -22,14 +21,13 @@ module.exports = [
     rules: {
       ...js.configs.recommended.rules,
       "no-unused-vars": "warn",
-      "no-undef": "off", // Node globals allowed
+      "no-undef": "off",
       "semi": ["error", "always"],
       "quotes": ["error", "double"],
-      "no-console": "off", // allow console.log
+      "no-console": "off",
     },
   },
 
-  // Frontend (Browser) files
   {
     files: ["public/js/**/*.js"],
     languageOptions: {
