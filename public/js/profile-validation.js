@@ -52,4 +52,21 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("Error:", err);
         }
     });
+
+    // Toggle between profile and password forms
+    const changePasswordButton = document.getElementById("changePasswordButton");
+    const profileFormDiv = document.getElementById("profileForm").parentElement; 
+    const passwordFormDiv = document.getElementById("passwordForm");
+    const cancelButton = passwordFormDiv.querySelector("button[type=\"button\"]");
+
+    changePasswordButton.addEventListener("click", () => {
+        profileFormDiv.classList.add("hidden");
+        passwordFormDiv.classList.remove("hidden");
+    });
+
+    cancelButton.addEventListener("click", () => {
+        passwordFormDiv.classList.add("hidden");
+        profileFormDiv.classList.remove("hidden");
+    });
 });
+    

@@ -1,191 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/css/output.css" rel="stylesheet">
-        <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        <link rel="icon" type="image/svg+xml" href="/images/icons/profile.svg" />
-        <title>Home</title>
-    </head>
-    <body class="bg-gray-100">
-        <!-- Navigation Bar -->
-        <nav class="bg-white shadow-lg">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex justify-between h-16">
-                    <!-- Dashboard Text -->
-                    <div class="flex items-center space-x-4">
-                        <a href="/home" class="flex items-center text-gray-700 hover:text-gray-900">
-                            <img src="/images/icons/arrow-down.png" 
-                                 alt="back arrow"
-                                 class="h-5 w-5 transform rotate-90"
-                            >
-                            <span class="ml-2">Home</span>
-                        </a>
-                        <span class="text-xl font-semibold text-gray-800">Profile</span>
-                    </div>
-                    
-                    <!-- User Dropdown -->
-                    <div class="flex items-center">
-                        <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
-                                <span class="text-sm font-medium"><%= user.username %></span>
-                                <img src="/images/icons/arrow-down.png" 
-                                     alt="dropdown arrow"
-                                     class="h-5 w-5 transition-transform duration-200"
-                                     :class="{ 'transform rotate-180': open }"
-                                >
-                            </button>
-                            
-                            <!-- Dropdown Menu -->
-                            <div x-show="open" 
-                                 x-transition:enter="transition ease-out duration-100"
-                                 x-transition:enter-start="transform opacity-0 scale-95"
-                                 x-transition:enter-end="transform opacity-100 scale-100"
-                                 x-transition:leave="transition ease-in duration-75"
-                                 x-transition:leave-start="transform opacity-100 scale-100"
-                                 x-transition:leave-end="transform opacity-0 scale-95"
-                                 class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-                                <form action="/profile" method="get">
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-black-600 hover:bg-gray-100">
-                                        Profile
-                                    </button>
-                                </form>
-                                <form action="/logout" method="post">
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                        Logout
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
 
-        <!-- Main Content -->
-        <div class="flex flex-col items-center bg-gray-100 min-h-screen py-10">
-            <div class="w-96 space-y-6">
-                <h1 class="text-2xl font-bold text-center mb-8">Welcome <%= user.lastName + ", " + user.firstName %></h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/output.css" rel="stylesheet">
+    <!-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+    <link rel="icon" type="image/svg+xml" href="/images/icons/profile.svg" />
+    <title>Home</title>
+</head>
 
-                <!-- Profile Edit Form -->
-                <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-                    <h2 class="text-2xl font-bold text-center mb-6">Edit Information</h2>
-                    
-                    <div id="toast-success" 
-                        style="display: none;"
-                        class="absolute -top-12 left-1/2 transform -translate-x-1/2 flex items-center gap-3 w-full max-w-xs p-4 text-gray-500 bg-green-600 rounded-md shadow-sm"
-                        role="alert">
-                        <div class="inline-flex items-center justify-center w-8 h-8 text-green-500 rounded-lg">
-                            <i class="fa-solid fa-circle-check text-3xl" style="color: #ffff;"></i>
-                        </div>
-                        <div id="toast-message" class="ms-3 text-white text-lg font-normal">Profile updated successfully.</div>
-                        <button id="toast-close" type="button" class="ms-auto -mx-1.5 -my-1.5 bg-none text-white hover:text-black rounded-lg focus:ring-2 focus:ring-black p-1.5 inline-flex items-center justify-center h-8 w-8">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                    </div>
-
-                    <form id="profileForm" action="/profile" method="post" class="space-y-8 relative">
-                        <div>
-                            <label for="firstName" class="label-style">First Name</label>
-                            <div>
-                                <input 
-                                    id="firstName" 
-                                    name="firstName" 
-                                    type="text" 
-                                    value="<%= user.firstName %>"
-                                    class="input-field-style input-normal"
-                                    data-error=<%- JSON.stringify((errors && errors.firstName) ? errors.firstName : "") %>
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="lastName" class="label-style">Last Name</label>
-                            <div>
-                                <input 
-                                    id="lastName" 
-                                    name="lastName" 
-                                    type="text" 
-                                    value="<%= user.lastName %>"
-                                    class="input-field-style input-normal"
-                                    data-error=<%- JSON.stringify((errors && errors.lastName) ? errors.lastName : "") %>
-                                />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label for="email" class="label-style">Email</label>
-                            <div>
-                                <input 
-                                    id="email" 
-                                    name="email" 
-                                    type="email" 
-                                    value="<%= user.email %>"
-                                    class="input-field-style input-normal"
-                                    data-error=<%- JSON.stringify((errors && errors.email) ? errors.email : "") %>
-                                />
-                            </div>
-                        </div>
-
-                        <button 
-                            type="submit"
-                            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Save Changes
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Password Change Form -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h2 class="text-2xl font-bold text-center mb-6">Change Password</h2>
-                    
-                    <form action="/profile/change-password" method="post" class="space-y-8">
-                        <div>
-                            <label for="currentPassword" class="label-style">Current Password</label>
-                            <input 
-                                id="currentPassword" 
-                                name="currentPassword" 
-                                type="password" 
-                                required
-                                placeholder="Enter current password"
-                                class="input-field-style input-normal"
-                            />
-                        </div>
-
-                        <div>
-                            <label for="newPassword" class="label-style">New Password</label>
-                            <input 
-                                id="newPassword" 
-                                name="newPassword" 
-                                type="password" 
-                                placeholder="Enter new password"
-                                class="input-field-style input-normal"
-                            />
-                        </div>
-
-                        <div>
-                            <label for="confirmPassword" class="label-style">Confirm New Password</label>
-                            <input 
-                                id="confirmPassword" 
-                                name="confirmPassword" 
-                                type="password" 
-                                placeholder="Confirm new password"
-                                class="input-field-style input-normal"
-                            />
-                        </div>
-
-                        <button 
-                            type="submit"
-                            class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        >
-                            Change Password
-                        </button>
-                    </form>
+<body class="bg-gray-100">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between h-16">
+                <!-- Dashboard Text -->
+                <div class="flex items-center space-x-4">
+                    <a href="/home" class="flex items-center text-gray-700 hover:text-gray-900">
+                        <img src="/images/icons/arrow-down.png" alt="back arrow" class="h-5 w-5 transform rotate-90">
+                        <!-- <span class="ml-2">Home</span> -->
+                    </a>
+                    <span class="text-xl font-semibold text-gray-800">Profile</span>
                 </div>
             </div>
         </div>
-    </body>
-    <script src="/js/profile-validation.js"></script>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex flex-col items-center bg-gray-100 min-h-screen py-10">
+        <div class="w-96 space-y-6">
+            <h1 class="text-2xl font-bold text-center mb-8">Welcome <%= user.lastName + ", " + user.firstName %>
+            </h1>
+
+            <!-- Profile Edit Form -->
+            <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+                <h2 class="text-2xl font-bold text-center mb-6">Edit Information</h2>
+
+                <div id="toast-success" style="display: none;" class="absolute -top-12 left-1/2 transform -translate-x-1/2 flex items-center gap-3 w-full max-w-xs p-4
+                         text-gray-500 bg-green-600 rounded-md shadow-sm" role="alert">
+                    <div class="inline-flex items-center justify-center w-8 h-8 text-green-500 rounded-lg">
+                        <i class="fa-solid fa-circle-check text-3xl" style="color: #ffff;"></i>
+                    </div>
+                    <div id="toast-message" class="ms-3 text-white text-lg font-normal">Profile updated successfully.
+                    </div>
+                    <button id="toast-close" type="button"
+                        class="ms-auto -mx-1.5 -my-1.5 bg-none text-white 
+                            hover:text-black rounded-lg focus:ring-2 focus:ring-black p-1.5 inline-flex items-center justify-center h-8 w-8">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form id="profileForm" action="/profile" method="post" class="space-y-8 relative">
+                    <div>
+                        <label for="firstName" class="label-style">First Name</label>
+                        <div>
+                            <input id="firstName" name="firstName" type="text" value="<%= user.firstName %>"
+                                class="input-field-style input-normal" data-error=<%- JSON.stringify((errors &&
+                                errors.firstName) ? errors.firstName : "" ) %>
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="lastName" class="label-style">Last Name</label>
+                        <div>
+                            <input id="lastName" name="lastName" type="text" value="<%= user.lastName %>"
+                                class="input-field-style input-normal" data-error=<%- JSON.stringify((errors &&
+                                errors.lastName) ? errors.lastName : "" ) %>
+                            />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="label-style">Email</label>
+                        <div>
+                            <input id="email" name="email" type="email" value="<%= user.email %>"
+                                class="input-field-style input-normal" data-error=<%- JSON.stringify((errors &&
+                                errors.email) ? errors.email : "" ) %>
+                            />
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 
+                                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Save Changes
+                        </button>
+                        <button type="button" id="changePasswordButton" class="w-full bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700
+                                focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                            Change Password
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Password Change Form -->
+            <div id="passwordForm" class="hidden bg-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold text-center mb-6">Change Password</h2>
+
+                <form action="/profile/change-password" method="post" class="space-y-8">
+                    <div>
+                        <label for="currentPassword" class="label-style">Current Password</label>
+                        <input id="currentPassword" name="currentPassword" type="password" required
+                            placeholder="Enter current password" class="input-field-style input-normal" />
+                    </div>
+
+                    <div>
+                        <label for="newPassword" class="label-style">New Password</label>
+                        <input id="newPassword" name="newPassword" type="password" placeholder="Enter new password"
+                            class="input-field-style input-normal" />
+                    </div>
+
+                    <div>
+                        <label for="confirmPassword" class="label-style">Confirm New Password</label>
+                        <input id="confirmPassword" name="confirmPassword" type="password"
+                            placeholder="Confirm new password" class="input-field-style input-normal" />
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 
+                            focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Change Password
+                        </button>
+                        <button type="button" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 
+                                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="/js/profile-validation.js"></script>
+
 </html>
