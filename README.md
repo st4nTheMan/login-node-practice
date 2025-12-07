@@ -17,4 +17,16 @@ Before cloning or running this repository, make sure you have the following inst
    ```bash
    node src/index.js
 
+## 🧹 Linting the Project
 
+This project uses ESLint to maintain code quality. Follow these steps:
+
+1. Check for linting errors
+   ```bash
+   npm run lint
+This will display all linting errors and warnings in your project.
+
+2. Automatically fix fixable errors
+   ```bash
+   npm run lint -- --fix
+⚠️ Only automatically fixable errors will be corrected. You may need to manually fix remaining issues and check logs on how to debug.
