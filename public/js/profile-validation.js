@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("profileForm");
-    
+
     if (!form) return;
 
     form.addEventListener("submit", async (e) => {
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Toggle between profile and password forms
     const changePasswordButton = document.getElementById("changePasswordButton");
-    const profileFormDiv = document.getElementById("profileForm").parentElement; 
+    const profileFormDiv = document.getElementById("profileForm").parentElement;
     const passwordFormDiv = document.getElementById("passwordForm");
     const cancelButton = passwordFormDiv.querySelector("button[type=\"button\"]");
 
@@ -69,4 +69,3 @@ document.addEventListener("DOMContentLoaded", () => {
         profileFormDiv.classList.remove("hidden");
     });
 });
-    

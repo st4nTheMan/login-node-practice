@@ -1,56 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/css/output.css" rel="stylesheet">
-        <link rel="icon" type="image/svg+xml" href="/images/icons/login.svg" />
-        <title>Login</title>
-    </head>
-    <body class="bg-gray-100">
-        <div class="flex items-center justify-center min-h-screen">
-            <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-                <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
-                    <form action="/login" method="post">
-                    <!-- Username -->
-                    <div class="mb-4">
-                        <label for="username" class="label-style">Username</label>
-                        <input 
-                            type="text" name="username"
-                            placeholder="Enter username" 
-                            value="<%= typeof username !== 'undefined' ? username : '' %>"
-                            class="input-normal mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none sm:text-sm"
-                            data-error=<%- JSON.stringify((errors && errors.username) ? errors.username : "") %>
-                        >
-                        <% if (errors && errors.username) { %>
-                            <p class="error-message mt-1 text-xs ml-2 text-orange-600"><%= errors.username %></p>
-                        <% } %>
-                    </div>
 
-                    <!-- Password -->
-                    <div class="mb-4">
-                        <label for="password" class="label-style">Password</label>
-                        <input 
-                            type="password" name="password" 
-                            placeholder="Enter password" 
-                            value="<%= typeof password !== 'undefined' ? password : '' %>"
-                            class="input-normal mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none sm:text-sm"
-                            data-error=<%- JSON.stringify((errors && errors.password) ? errors.password : "") %>
-                        >
-                        <% if (errors && errors.password) { %>
-                            <p class="error-message mt-1 text-xs ml-2 text-orange-600"><%= errors.password %></p>
-                        <% } %>
-                    </div>
-                    <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Login</button>
-                    <div class="text-center mt-4">
-                        <p class="text-sm text-gray-600">
-                            Don't have an account? 
-                            <a href="/register" class="text-indigo-600 hover:underline">Register</a>
-                        </p>
-                    </div>
-                </form>
-            </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/output.css" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="/images/icons/login.svg" />
+  <title>Login</title>
+</head>
+
+<body class="bg-gray-100">
+  <div class="flex items-center justify-center min-h-screen">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h2 class="text-2xl font-bold text-center mb-6">Login</h2>
+      <form action="/login" method="post">
+        <!-- Username -->
+        <div class="mb-4">
+          <label for="username" class="label-style">Username</label>
+          <input type="text" name="username" placeholder="Enter username"
+            value="<%= typeof username !== 'undefined' ? username : '' %>"
+            class="input-normal mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none sm:text-sm"
+            data-error=<%- JSON.stringify((errors && errors.username) ? errors.username : "" ) %>
+          >
+          <% if (errors && errors.username) { %>
+            <p class="error-message mt-1 text-xs ml-2 text-orange-600">
+              <%= errors.username %>
+            </p>
+            <% } %>
         </div>
-        <script src="/js/login-validation.js"></script>
-    </body>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label for="password" class="label-style">Password</label>
+          <input type="password" name="password" placeholder="Enter password"
+            value="<%= typeof password !== 'undefined' ? password : '' %>"
+            class="input-normal mt-1 block w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none sm:text-sm"
+            data-error=<%- JSON.stringify((errors && errors.password) ? errors.password : "" ) %>
+          >
+          <% if (errors && errors.password) { %>
+            <p class="error-message mt-1 text-xs ml-2 text-orange-600">
+              <%= errors.password %>
+            </p>
+            <% } %>
+        </div>
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Login</button>
+        <div class="text-center mt-4">
+          <p class="text-sm text-gray-600">
+            Don't have an account?
+            <a href="/register" class="text-indigo-600 hover:underline">Register</a>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+  <script src="/js/login-validation.js"></script>
+</body>
+
 </html>

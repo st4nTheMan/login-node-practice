@@ -1,60 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/css/output.css" rel="stylesheet">
-        <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-        <link rel="icon" type="image/svg+xml" href="/images/icons/home.svg" />
-        <title>Home</title>
-    </head>
-    <body class="bg-gray-100">
-        <!-- Navigation Bar -->
-        <nav class="bg-white shadow-lg">
-            <div class="max-w-7xl mx-auto px-4">
-                <div class="flex justify-between h-16">
-                    <!-- Dashboard Text -->
-                    <div class="flex items-center">
-                        <span class="text-xl font-semibold text-gray-800">Home</span>
-                    </div>
-                    <!-- User Dropdown -->
-                    <div class="flex items-center">
-                        <div class="relative" x-data="{ open: false }" @click.away="open = false">
-                            <button @click="open = !open" class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
-                                <span class="text-sm font-medium"><%= user.username %></span>
-                                <img src="/images/icons/arrow-down.png" 
-                                     alt="dropdown arrow"
-                                     class="h-5 w-5 transition-transform duration-200"
-                                     :class="{ 'transform rotate-180': open }">
-                            </button>
-                        <!-- Dropdown Menu -->
-                        <div x-show="open" 
-                             x-transition:enter="transition ease-out duration-100"
-                             x-transition:enter-start="transform opacity-0 scale-95"
-                             x-transition:enter-end="transform opacity-100 scale-100"
-                             x-transition:leave="transition ease-in duration-75"
-                             x-transition:leave-start="transform opacity-100 scale-100"
-                             x-transition:leave-end="transform opacity-0 scale-95"
-                                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
-                                <form action="/profile" method="get">
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-black-600 hover:bg-gray-100">
-                                        Profile                                    
-                                    </button>
-                                </form>
-                                <form action="/logout" method="post">
-                                    <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
-                                        Logout
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!-- Main Content -->
-        <div class="container mx-auto mt-10">
-            <h1 class="text-3xl font-bold text-center mb-6">Welcome <%= user.lastName + ", " + user.firstName %></h1>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/css/output.css" rel="stylesheet">
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="icon" type="image/svg+xml" href="/images/icons/home.svg" />
+  <title>Home</title>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Navigation Bar -->
+  <nav class="bg-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex justify-between h-16">
+        <!-- Dashboard Text -->
+        <div class="flex items-center">
+          <span class="text-xl font-semibold text-gray-800">Home</span>
         </div>
-    </body>
+        <!-- User Dropdown -->
+        <div class="flex items-center">
+          <div class="relative" x-data="{ open: false }" @click.away="open = false">
+            <button @click="open = !open"
+              class="flex items-center space-x-2 text-gray-700 hover:text-gray-900 focus:outline-none">
+              <span class="text-sm font-medium">
+                <%= user.username %>
+              </span>
+              <img src="/images/icons/arrow-down.png" alt="dropdown arrow"
+                class="h-5 w-5 transition-transform duration-200" :class="{ 'transform rotate-180': open }">
+            </button>
+            <!-- Dropdown Menu -->
+            <div x-show="open" x-transition:enter="transition ease-out duration-100"
+              x-transition:enter-start="transform opacity-0 scale-95"
+              x-transition:enter-end="transform opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-75"
+              x-transition:leave-start="transform opacity-100 scale-100"
+              x-transition:leave-end="transform opacity-0 scale-95"
+              class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+              <form action="/profile" method="get">
+                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-black-600 hover:bg-gray-100">
+                  Profile
+                </button>
+              </form>
+              <form action="/logout" method="post">
+                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+                  Logout
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- Main Content -->
+  <div class="container mx-auto mt-10">
+    <h1 class="text-3xl font-bold text-center mb-6">Welcome <%= user.lastName + ", " + user.firstName %>
+    </h1>
+  </div>
+</body>
+
 </html>

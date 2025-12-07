@@ -13,8 +13,7 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">
   <div class="flex flex-col w-96 items-center space-y-4">
     <div id="toast-success"
-      class="flex items-center gap-2 w-full max-w-2xl px-8 py-1 text-gray-500 bg-green-600 shadow-sm"
-      role="alert">
+      class="flex items-center gap-2 w-full max-w-2xl px-8 py-1 text-gray-500 bg-green-600 shadow-sm" role="alert">
       <div class="inline-flex items-center justify-center w-8 h-8 text-green-500 rounded-lg">
         <i class="fa-solid fa-circle-check text-2xl" style="color: #ffff;"></i>
       </div>
@@ -25,70 +24,70 @@
       </button>
     </div>
     <div class="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-    <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
+      <h2 class="text-2xl font-bold text-center mb-6">Register</h2>
 
-    <form id="registerForm" action="/register" method="post">
-      <div class="grid grid-cols-2 gap-5 mb-4">
-        <!-- First Name -->
-        <div>
-          <label for="firstName" class="label-style">First name</label>
-          <input id="firstName" type="text" name="firstName" placeholder="Enter first name"
-            value="<%= firstName || '' %>" class="input-normal input-field-style" data-error=<%- JSON.stringify((errors
-            && errors.firstName) ? errors.firstName : "" ) %>
+      <form id="registerForm" action="/register" method="post">
+        <div class="grid grid-cols-2 gap-5 mb-4">
+          <!-- First Name -->
+          <div>
+            <label for="firstName" class="label-style">First name</label>
+            <input id="firstName" type="text" name="firstName" placeholder="Enter first name"
+              value="<%= firstName || '' %>" class="input-normal input-field-style" data-error=<%-
+              JSON.stringify((errors && errors.firstName) ? errors.firstName : "" ) %>
+            />
+          </div>
+
+          <!-- Last Name -->
+          <div>
+            <label for="lastName" class="label-style">Last name</label>
+            <input id="lastName" type="text" name="lastName" placeholder="Enter last name" value="<%= lastName || '' %>"
+              class="input-field-style input-normal" data-error=<%- JSON.stringify((errors && errors.lastName) ?
+              errors.lastName : "" ) %>
+            />
+          </div>
+        </div>
+
+        <!-- Username -->
+        <div class="mb-4">
+          <label for="username" class="label-style">Username</label>
+          <input id="username" type="text" name="username" placeholder="Enter username" value="<%= username || '' %>"
+            class="input-field-style input-normal" data-error=<%- JSON.stringify((errors && errors.username) ?
+            errors.username : "" ) %>
           />
         </div>
 
-        <!-- Last Name -->
-        <div>
-          <label for="lastName" class="label-style">Last name</label>
-          <input id="lastName" type="text" name="lastName" placeholder="Enter last name" value="<%= lastName || '' %>"
-            class="input-field-style input-normal" data-error=<%- JSON.stringify((errors && errors.lastName) ?
-            errors.lastName : "" ) %>
+        <!-- Email -->
+        <div class="mb-4">
+          <label for="email" class="label-style">Email</label>
+          <input id="email" type="email" name="email" placeholder="Enter email" value="<%= email || '' %>"
+            class="input-field-style input-normal" />
+        </div>
+
+        <!-- Password -->
+        <div class="mb-4">
+          <label for="password" class="label-style">Password</label>
+          <input id="password" type="password" name="password" placeholder="Enter password"
+            class="input-field-style input-normal" data-error=<%- JSON.stringify((errors && errors.password) ?
+            errors.password : "" ) %>
           />
         </div>
-      </div>
 
-      <!-- Username -->
-      <div class="mb-4">
-        <label for="username" class="label-style">Username</label>
-        <input id="username" type="text" name="username" placeholder="Enter username" value="<%= username || '' %>"
-          class="input-field-style input-normal" data-error=<%- JSON.stringify((errors && errors.username) ?
-          errors.username : "" ) %>
-        />
-      </div>
+        <!-- Register -->
+        <button type="submit"
+          class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Register
+        </button>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="label-style">Email</label>
-        <input id="email" type="email" name="email" placeholder="Enter email" value="<%= email || '' %>"
-          class="input-field-style input-normal" />
-      </div>
-
-      <!-- Password -->
-      <div class="mb-4">
-        <label for="password" class="label-style">Password</label>
-        <input id="password" type="password" name="password" placeholder="Enter password"
-          class="input-field-style input-normal" data-error=<%- JSON.stringify((errors && errors.password) ?
-          errors.password : "" ) %>
-        />
-      </div>
-
-      <!-- Register -->
-      <button type="submit"
-        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-        Register
-      </button>
-
-      <div class="text-center mt-4">
-        <p class="text-sm text-gray-600">
-          Already have an account?
-          <a href="/login" class="text-indigo-600 hover:underline">Login</a>
-        </p>
-      </div>
-    </form>
+        <div class="text-center mt-4">
+          <p class="text-sm text-gray-600">
+            Already have an account?
+            <a href="/login" class="text-indigo-600 hover:underline">Login</a>
+          </p>
+        </div>
+      </form>
+    </div>
   </div>
-  </div>
-  
+
   <script src="/js/register-validation.js"></script>
 </body>
 

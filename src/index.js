@@ -15,7 +15,7 @@ app.use(session({
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false, // better than true
-    cookie: { 
+    cookie: {
         maxAge: 1000 * 60 * 60, // 1 hour
         secure: false // set to true if HTTPS
     }
