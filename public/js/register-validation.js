@@ -13,8 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
         toast.style.display = "flex";  // Make it visible
 
         if (toast.dataset.timerId) {
-        clearTimeout(toast.dataset.timerId);
-    }
+            clearTimeout(toast.dataset.timerId);
+        }
         // Auto-hide after 10s
         const timerId = setTimeout(() => {
             hideToast();
@@ -66,12 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         input.parentElement.appendChild(p);
                     }
                     // Remove error once user types
-                        input.addEventListener("input", () => {
-                            input.classList.remove("input-error");
-                            input.classList.add("input-normal");
-                            const errMsg = input.parentElement.querySelector(".error-message");
-                            if (errMsg) errMsg.remove();
-                        }, { once: true });
+                    input.addEventListener("input", () => {
+                        input.classList.remove("input-error");
+                        input.classList.add("input-normal");
+                        const errMsg = input.parentElement.querySelector(".error-message");
+                        if (errMsg) errMsg.remove();
+                    }, { once: true });
                 }
             } else {
                 showToast("Registered successfully!");
