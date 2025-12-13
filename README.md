@@ -15,7 +15,7 @@ Before cloning or running this repository, make sure you have the following inst
 2. Navigate to the project folder.
 3. Run the program using:
    ```bash
-   node src/index.js
+   npm run start or npm start
 
 ## 🧹 Linting the Project
 
