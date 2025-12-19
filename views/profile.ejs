@@ -5,14 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="/css/output.css" rel="stylesheet">
-  <!-- <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
   <link rel="icon" type="image/svg+xml" href="/images/icons/profile.svg" />
-  <title>Home</title>
+  <title>Profile</title>
 </head>
 
 <body class="bg-gray-100">
   <!-- Navigation Bar -->
-  <nav class="bg-white shadow-lg">
+  <nav class="bg-white shadow-lg sticky top-0 z-10">
     <div class="max-w-7xl mx-auto px-4">
       <div class="flex justify-between h-16">
         <!-- Dashboard Text -->
@@ -27,29 +26,11 @@
   </nav>
 
   <!-- Main Content -->
-  <div class="flex flex-col items-center bg-gray-100 min-h-screen py-10">
-    <div class="w-96 space-y-6">
-      <h1 class="text-2xl font-bold text-center mb-8">Welcome <%= user.lastName + ", " + user.firstName %>
-      </h1>
-
+  <div class="flex flex-col items-center bg-gray-100 py-10">
+    <div class="w-96 mt-10">
       <!-- Profile Edit Form -->
-      <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
+      <div class="bg-white p-6 rounded-lg shadow-lg">
         <h2 class="text-2xl font-bold text-center mb-6">Edit Information</h2>
-
-        <div id="toast-success" style="display: none;" class="absolute -top-12 left-1/2 transform -translate-x-1/2 flex items-center gap-3 w-full max-w-xs p-4
-                         text-gray-500 bg-green-600 rounded-md shadow-sm" role="alert">
-          <div class="inline-flex items-center justify-center w-8 h-8 text-green-500 rounded-lg">
-            <i class="fa-solid fa-circle-check text-3xl" style="color: #ffff;"></i>
-          </div>
-          <div id="toast-message" class="ms-3 text-white text-lg font-normal">Profile updated successfully.
-          </div>
-          <button id="toast-close" type="button"
-            class="ms-auto -mx-1.5 -my-1.5 bg-none text-white 
-                            hover:text-black rounded-lg focus:ring-2 focus:ring-black p-1.5 inline-flex items-center justify-center h-8 w-8">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-
         <form id="profileForm" action="/profile" method="post" class="space-y-8 relative">
           <div>
             <label for="firstName" class="label-style">First Name</label>
