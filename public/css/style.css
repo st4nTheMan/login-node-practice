@@ -18,3 +18,11 @@
 .label-style {
     @apply block text-sm font-medium text-gray-700
 }
+
+.toast-success-style {
+    @apply flex items-center gap-2 w-full max-w-2xl px-8 py-1 text-gray-500 bg-green-600 shadow-sm
+}
+
+.toast-success-close-btn {
+    @apply ms-auto -mx-1.5 -my-1.5 bg-none text-white hover:text-gray-300 p-1.5 inline-flex items-center justify-center h-8 w-8
+}   

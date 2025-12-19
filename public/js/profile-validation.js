@@ -1,5 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("profileForm");
+    const toast = document.getElementById("profile-success");
+    const closeBtn = document.getElementById("profile-toast-close");
+
+    // Edit information toast message
+
+    toast.style.display = "none"; //intially hide toast
+
+    function showToast(message) {
+        const toastMsg = document.getElementById("profile-toast-message");
+        toastMsg.textContent = message;
+        toast.style.display = "flex"; //make it visible
+
+        if (toast.dataset.timerId) {
+            clearTimeout(toast.dataset.timerId);
+        }
+        // Auto-hide after 10s
+        const timerId = setTimeout(() => {
+            hideToast();
+        }, 3000);
+
+        toast.dataset.timerId = timerId;
+    }
+
+    // Function to hide toast
+    function hideToast() {
+        toast.style.display = "none";
+    }
+
+    // Close button listener
+    closeBtn.addEventListener("click", hideToast);
 
     if (!form) return;
 
@@ -7,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
 
         // Clear previous error messages
-        document.querySelectorAll(".error-message").forEach(el => el.remove());
-        form.querySelectorAll("input").forEach(input => {
+        document.querySelectorAll(".error-message").forEach((el) => el.remove());
+        form.querySelectorAll("input").forEach((input) => {
             input.classList.remove("input-error");
             input.classList.add("input-normal");
         });
@@ -19,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const res = await fetch("/profile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
             });
 
             const result = await res.json();
@@ -36,17 +66,21 @@ document.addEventListener("DOMContentLoaded", () => {
                         p.textContent = message;
                         input.parentElement.appendChild(p);
 
-                        input.addEventListener("input", () => {
-                            input.classList.remove("input-error");
-                            input.classList.add("input-normal");
-                            const errMsg = input.parentElement.querySelector(".error-message");
-                            if (errMsg) errMsg.remove();
-                        }, { once: true });
+                        input.addEventListener(
+                            "input",
+                            () => {
+                                input.classList.remove("input-error");
+                                input.classList.add("input-normal");
+                                const errMsg =
+                                    input.parentElement.querySelector(".error-message");
+                                if (errMsg) errMsg.remove();
+                            },
+                            { once: true }
+                        );
                     }
                 }
             } else if (res.ok) {
-                alert("Profile updated successfully!");
-                location.reload();
+                showToast("Profile updated successfully!");
             }
         } catch (err) {
             console.error("Error:", err);
