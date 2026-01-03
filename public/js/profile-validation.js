@@ -1,37 +1,52 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("profileForm");
-    const toast = document.getElementById("profile-success");
-    const closeBtn = document.getElementById("profile-toast-close");
-
-    // Edit information toast message
-
-    toast.style.display = "none"; //intially hide toast
-
-    function showToast(message) {
-        const toastMsg = document.getElementById("profile-toast-message");
-        toastMsg.textContent = message;
-        toast.style.display = "flex"; //make it visible
-
-        if (toast.dataset.timerId) {
-            clearTimeout(toast.dataset.timerId);
-        }
-        // Auto-hide after 10s
-        const timerId = setTimeout(() => {
-            hideToast();
-        }, 3000);
-
-        toast.dataset.timerId = timerId;
-    }
-
-    // Function to hide toast
-    function hideToast() {
-        toast.style.display = "none";
-    }
-
-    // Close button listener
-    closeBtn.addEventListener("click", hideToast);
 
     if (!form) return;
+    const toast = document.querySelector(".js-toast");
+    const toastMsg = toast ? toast.querySelector(".js-toast-message") : null;
+    const closeBtn = toast ? toast.querySelector(".js-toast-close") : null;
+
+    if (toast) {
+        toast.classList.add("hidden");
+        // Ensure it does not have 'flex' until shown
+        toast.classList.remove("flex");
+    }
+    function showToast(message, { reloadAfter = false } = {}) {
+        if (!toast) return;
+        if (toastMsg) toastMsg.textContent = message;
+
+        // Show by toggling utility classes
+        toast.classList.remove("hidden");
+        toast.classList.add("flex");
+
+        // Clear any existing timer
+        if (toast._timerId) {
+            clearTimeout(toast._timerId);
+            delete toast._timerId;
+        }
+
+        // Auto-hide after 3s (3000ms)
+        toast._timerId = setTimeout(() => {
+            hideToast();
+            if (reloadAfter) {
+                // Slight delay to allow hide animation (if any) to complete
+                setTimeout(() => location.reload(), 150);
+            }
+        }, 3000);
+    }
+
+    function hideToast() {
+        if (!toast) return;
+        toast.classList.add("hidden");
+        if (toast._timerId) {
+            clearTimeout(toast._timerId);
+            delete toast._timerId;
+        }
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener("click", hideToast);
+    }
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();

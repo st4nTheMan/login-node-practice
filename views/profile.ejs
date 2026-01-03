@@ -31,13 +31,13 @@
     <div class="w-96 mt-5">
       <!-- Profile Edit Form -->
       <div class="flex flex-col gap-3">
-        <div id="profile-success" class="toast-success-style" role="alert">
+        <div class="js-toast toast-success-style hidden" role="alert" aria-live="polite">
           <div class="inline-flex items-center justify-center w-8 h-8 text-green-500 rounded-lg">
             <i class="fa-solid fa-circle-check text-2xl" style="color: #ffff;"></i>
           </div>
-          <div id="profile-toast-message" class="ms-5 text-white text-lg font-normal">Profile updated successfully.
+          <div class="js-toast-message ms-5 text-white text-lg font-normal">Profile updated successfully.
           </div>
-          <button id="profile-toast-close" type="button" class="toast-success-close-btn">
+          <button type="button" class="js-toast-close toast-success-close-btn">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
@@ -134,7 +134,7 @@
       </div>
     </div>
   </div>
+  <script src="/js/profile-validation.js"></script>
 </body>
-<script src="/js/profile-validation.js"></script>
 
 </html>
